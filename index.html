@@ -171,12 +171,13 @@
 
         <!-- Form Container -->
         <div class="bg-white dark:bg-gray-800 rounded-b-lg shadow-lg p-8">
-            <form id="feedbackForm" class="space-y-8" form action="https://formsubmit.co/admin@sis-ag.com"
+            <form id="feedbackForm" class="space-y-8" form action="https://formsubmit.co/mamfredneville@gmail.com.com"
                 method="POST">
 
                 <!--code to copy mail to nessary paties -->
-                <!-- <input type="hidden" name="_cc" value="info@eeatgroup.com"> -->
+                
                 <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_subject" value="NEW CUSTOMER FEEDBACK RECEIVED">
 
 
                 <!-- Project Information -->
@@ -432,14 +433,14 @@
             document.querySelectorAll('.star-rating').forEach(rating => {
                 const stars = rating.querySelectorAll('.star');
                 const hiddenInput = rating.querySelector('input[type="hidden"]'); // Get the hidden input
-                let currentRating = 0; // Use a number to track the current rating
+                let currentRating = ''; // Use a string to track the current rating
 
                 stars.forEach((star, index) => {
                     star.addEventListener('click', () => {
-                        currentRating = index + 1; // Update currentRating on click
-                        updateStars(stars, currentRating); // Update star visuals
+                        currentRating = '⭐'.repeat(index + 1); // Update currentRating with stars
+                        updateStars(stars, index + 1); // Update star visuals
                         rating.setAttribute('data-value', currentRating);
-                        hiddenInput.value = currentRating;  // Update hidden input with numeric value
+                        hiddenInput.value = currentRating;  // Update hidden input with star character
                     });
 
                     star.addEventListener('mouseenter', () => {
@@ -448,7 +449,7 @@
                 });
 
                 rating.addEventListener('mouseleave', () => {
-                    updateStars(stars, currentRating); // Keep the current rating highlighted
+                    updateStars(stars, currentRating.length); // Keep the current rating highlighted
                 });
             });
         }
@@ -476,35 +477,7 @@
                 const json = JSON.stringify(object);
                 result.innerHTML = "Please wait..."
 
-                fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: json
-                })
 
-                    .then(async (response) => {
-                        let json = await response.json();
-                        if (response.status == 200) {
-                            result.innerHTML = "Form submitted successfully";
-                        } else {
-                            console.log(response);
-                            result.innerHTML = json.message;
-                        }
-                    })
-
-                    .catch(error => {
-                        console.log(error);
-                        result.innerHTML = "Something went wrong!";
-                    })
-                    .then(function () {
-                        form.reset();
-                        setTimeout(() => {
-                            result.style.display = "none";
-                        }, 3000);
-                    });
             });
         }
 
